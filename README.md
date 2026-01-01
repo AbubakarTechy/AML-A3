@@ -1,2 +1,2 @@
 # AML-A3
-This is my
+This is my friend Assignment on AML.
