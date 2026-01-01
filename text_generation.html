@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Generation - AI Workspace</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+    <nav>
+        <a href="/" class="logo">AI.Workspace</a>
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/#about">About</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="service-page">
+            <div class="card-icon">
+                <i data-lucide="pen-tool"></i>
+            </div>
+            <h1>Text Generation</h1>
+            <p>Enter a prompt and let the AI finish your sentence.</p>
+
+            <div class="form-group" style="margin-top: 2rem;">
+                <label>Input Prompt</label>
+                <textarea id="prompt-input" rows="4" placeholder="Once upon a time in a galaxy far away..."></textarea>
+            </div>
+
+            <button class="btn" id="generate-btn" style="width: 100%;">Generate Text</button>
+
+            <div class="loader" id="loader"></div>
+
+            <div class="result-area" id="result-area">
+                <h4>Generated Output:</h4>
+                <p id="output-text" style="line-height: 1.8; margin-top: 1rem; color: var(--text-main)"></p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 AI Workspace. Designed for Applied Machine Learning Assignment.</p>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+        const promptInput = document.getElementById('prompt-input');
+        const generateBtn = document.getElementById('generate-btn');
+        const outputText = document.getElementById('output-text');
+        const resultArea = document.getElementById('result-area');
+        const loader = document.getElementById('loader');
+
+        generateBtn.addEventListener('click', async () => {
+            const prompt = promptInput.value.trim();
+            if (!prompt) {
+                alert('Please enter a prompt');
+                return;
+            }
+
+            loader.style.display = 'block';
+            generateBtn.style.display = 'none';
+            resultArea.style.display = 'none';
+
+            try {
+                const response = await fetch('/api/generate-text', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ prompt })
+                });
+                const data = await response.json();
+
+                outputText.innerText = data.generated_text;
+                resultArea.style.display = 'block';
+            } catch (err) {
+                alert('Generation failed');
+            } finally {
+                loader.style.display = 'none';
+                generateBtn.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+
+</html>

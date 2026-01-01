@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice QA - AI Workspace</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+    <nav>
+        <a href="/" class="logo">AI.Workspace</a>
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/#about">About</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="service-page">
+            <div class="card-icon">
+                <i data-lucide="message-square"></i>
+            </div>
+            <h1>Voice QA</h1>
+            <p>Ask a question via voice and hear the AI response.</p>
+
+            <div class="upload-area">
+                <i data-lucide="mic" style="width: 48px; height: 48px; color: var(--text-muted)"></i>
+                <p>Upload Question Audio <label for="file-input"
+                        style="color: var(--primary); cursor: pointer;">browse</label></p>
+                <input type="file" id="file-input" hidden accept="audio/*">
+            </div>
+
+            <button class="btn" id="analyze-btn" style="width: 100%;">Ask AI</button>
+
+            <div class="loader" id="loader"></div>
+
+            <div class="result-area" id="result-area">
+                <div style="margin-bottom: 2rem;">
+                    <h4>Your Question:</h4>
+                    <p id="q-text" style="color: var(--text-muted); font-style: italic;"></p>
+                </div>
+                <div>
+                    <h4>AI Response:</h4>
+                    <p id="a-text" style="margin: 0.5rem 0 1.5rem 0;"></p>
+                    <audio id="response-audio" controls style="width: 100%; height: 40px;"></audio>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 AI Workspace. Designed for Applied Machine Learning Assignment.</p>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+        const fileInput = document.getElementById('file-input');
+        const analyzeBtn = document.getElementById('analyze-btn');
+        const qText = document.getElementById('q-text');
+        const aText = document.getElementById('a-text');
+        const responseAudio = document.getElementById('response-audio');
+        const resultArea = document.getElementById('result-area');
+        const loader = document.getElementById('loader');
+
+        analyzeBtn.addEventListener('click', async () => {
+            if (!fileInput.files[0]) {
+                alert('Please select an audio file');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('file', fileInput.files[0]);
+
+            loader.style.display = 'block';
+            analyzeBtn.style.display = 'none';
+            resultArea.style.display = 'none';
+
+            try {
+                const response = await fetch('/api/voice-qa', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.json();
+
+                qText.innerText = data.question;
+                aText.innerText = data.answer;
+                responseAudio.src = `/static/uploads/${data.audio_file}`;
+                resultArea.style.display = 'block';
+                responseAudio.play();
+            } catch (err) {
+                alert('Processing failed');
+            } finally {
+                loader.style.display = 'none';
+                analyzeBtn.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Workspace - Advanced ML Services</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <a href="/" class="logo">AI.Workspace</a>
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="#about">About</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1>Intelligent AI Services</h1>
+            <p>Experience the power of modern machine learning with our suite of transformer-based and CNN services.</p>
+        </section>
+
+        <!-- Services Grid -->
+        <div class="grid">
+            <!-- 1. Image Classification -->
+            <a href="/image-classification" class="card">
+                <div class="card-icon">
+                    <i data-lucide="image"></i>
+                </div>
+                <h3>Gender Classification</h3>
+                <p>Advanced CNN model to classify images as Male or Female with high precision.</p>
+            </a>
+
+            <!-- 2. Sentiment Analysis (Voice to Text) -->
+            <a href="/sentiment-analysis" class="card">
+                <div class="card-icon">
+                    <i data-lucide="mic"></i>
+                </div>
+                <h3>Sentiment (Voice)</h3>
+                <p>Convert voice recordings to text and analyze the underlying emotional sentiment.</p>
+            </a>
+
+            <!-- 3. Question Answering (Voice to Voice) -->
+            <a href="/qa" class="card">
+                <div class="card-icon">
+                    <i data-lucide="message-square"></i>
+                </div>
+                <h3>Voice QA</h3>
+                <p>Natural language question answering where both input and output are voice-enabled.</p>
+            </a>
+
+            <!-- 4. Text Generation -->
+            <a href="/text-generation" class="card">
+                <div class="card-icon">
+                    <i data-lucide="pen-tool"></i>
+                </div>
+                <h3>Text Generation</h3>
+                <p>Creative text completion and generation using state-of-the-art Transformers.</p>
+            </a>
+
+            <!-- 5. Translation -->
+            <a href="/translation" class="card">
+                <div class="card-icon">
+                    <i data-lucide="languages"></i>
+                </div>
+                <h3>Translation</h3>
+                <p>Seamlessly translate English text to Urdu using specialized language models.</p>
+            </a>
+        </div>
+
+        <!-- About Section (Now integrated here) -->
+        <section id="about" style="margin-top: 8rem; padding-top: 4rem; border-top: 1px solid var(--glass-border);">
+            <h2 style="text-align: center; margin-bottom: 3rem; font-size: 2.5rem;">Project Overview</h2>
+
+            <div class="info-grid">
+                <!-- Card 1: About AML Assignment -->
+                <div class="card" style="cursor: default;">
+                    <div class="card-icon">
+                        <i data-lucide="book-open"></i>
+                    </div>
+                    <h3>AML Assignment</h3>
+                    <p>This project is developed as part of the <strong>Applied Machine Learning (AML)</strong> course
+                        assignment. It demonstrates the integration of various AI models into a functional web
+                        application, covering:</p>
+                    <ul style="color: var(--text-muted); margin-top: 1rem; padding-left: 1.2rem; line-height: 1.8;">
+                        <li>CNN-based Image Classification</li>
+                        <li>Voice-to-Text Sentiment Analysis</li>
+                        <li>Transformers for Question Answering</li>
+                        <li>NLG for Text Generation</li>
+                        <li>Neural Machine Translation (English to Urdu)</li>
+                    </ul>
+                </div>
+
+                <!-- Card 2: About Student -->
+                <div class="card" style="cursor: default;">
+                    <div class="card-icon">
+                        <i data-lucide="user"></i>
+                    </div>
+                    <h3>Student Profile</h3>
+                    <p>Developed with passion for AI and Web Technologies.</p>
+                    <div style="margin-top: 1.5rem; border-top: 1px solid var(--glass-border); padding-top: 1rem;">
+                        <p><strong>Name:</strong> Muhammad Mutuiallah</p>
+                        <p><strong>Roll No:</strong> L1s22bsse0280</p>
+                        <p><strong>Department:</strong>Software Engineering</p>
+                        <p><strong>Semester:</strong> 2026</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 AI Workspace. Designed for Applied Machine Learning Assignment.</p>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>

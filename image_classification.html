@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gender Classification - AI Workspace</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+    <nav>
+        <a href="/" class="logo">AI.Workspace</a>
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/#about">About</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="service-page">
+            <div class="card-icon">
+                <i data-lucide="image"></i>
+            </div>
+            <h1>Gender Classification</h1>
+            <p>Upload an image to classify the gender as Male or Female using a CNN model.</p>
+
+            <div class="upload-area" id="drop-zone">
+                <i data-lucide="upload-cloud" style="width: 48px; height: 48px; color: var(--text-muted)"></i>
+                <p>Drag & drop or <label for="file-input" style="color: var(--primary); cursor: pointer;">browse</label>
+                </p>
+                <input type="file" id="file-input" hidden accept="image/*">
+            </div>
+
+            <div id="preview" style="display: none; text-align: center; margin-bottom: 2rem;">
+                <img id="image-preview" src=""
+                    style="max-width: 100%; border-radius: 1rem; border: 1px solid var(--glass-border);">
+            </div>
+
+            <button class="btn" id="analyze-btn" style="width: 100%;">Run Analysis</button>
+
+            <div class="loader" id="loader"></div>
+
+            <div class="result-area" id="result-area">
+                <h3>Classification Result:</h3>
+                <p id="result-text" style="font-size: 1.5rem; margin-top: 1rem; color: var(--secondary)"></p>
+                <p id="confidence-text" style="color: var(--text-muted)"></p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 AI Workspace. Designed for Applied Machine Learning Assignment.</p>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+        const dropZone = document.getElementById('drop-zone');
+        const fileInput = document.getElementById('file-input');
+        const analyzeBtn = document.getElementById('analyze-btn');
+        const preview = document.getElementById('preview');
+        const imagePreview = document.getElementById('image-preview');
+        const resultArea = document.getElementById('result-area');
+        const resultText = document.getElementById('result-text');
+        const confidenceText = document.getElementById('confidence-text');
+        const loader = document.getElementById('loader');
+
+        fileInput.addEventListener('change', handleFile);
+
+        function handleFile(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    imagePreview.src = e.target.result;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        analyzeBtn.addEventListener('click', async () => {
+            if (!fileInput.files[0]) {
+                alert('Please select an image first');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('file', fileInput.files[0]);
+
+            loader.style.display = 'block';
+            analyzeBtn.style.display = 'none';
+            resultArea.style.display = 'none';
+
+            try {
+                const response = await fetch('/api/classify-image', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.json();
+
+                resultText.innerText = data.label;
+                confidenceText.innerText = `Confidence: ${(data.score * 100).toFixed(2)}%`;
+                resultArea.style.display = 'block';
+            } catch (err) {
+                alert('Analysis failed');
+            } finally {
+                loader.style.display = 'none';
+                analyzeBtn.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+
+</html>
